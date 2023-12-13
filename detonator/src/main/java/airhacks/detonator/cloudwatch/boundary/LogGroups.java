@@ -15,7 +15,6 @@ public interface LogGroups {
                     .stream()
                     .flatMap(response -> response.logGroups().stream())
                     .map(LogGroup::logGroupName)
-                    .peek(System.out::println)
                     .forEach(groupName -> LogGroups.delete(client, groupName));
 
         }

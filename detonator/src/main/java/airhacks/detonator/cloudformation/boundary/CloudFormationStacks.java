@@ -23,7 +23,6 @@ public interface CloudFormationStacks {
                .stackSummaries()
                .stream()
                .filter(CloudFormationStacks::notCDK)
-               .peek(CloudFormationStacks::info)
                .forEach(summary -> deleteStack(client, summary));
 
       }

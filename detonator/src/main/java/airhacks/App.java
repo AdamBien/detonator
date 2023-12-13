@@ -10,7 +10,7 @@ import software.amazon.awssdk.services.sts.StsClient;
  * @author airhacks.com
  */
 interface App {
-    String version = "detonator: v0.0.3, 14.12.2023";
+    String version = "detonator: v0.0.4, 14.12.2023";
 
     static void info(String message){
         System.out.println(message);
