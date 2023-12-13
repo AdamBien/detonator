@@ -8,7 +8,7 @@ import software.amazon.awssdk.services.cloudformation.model.StackStatus;
 import software.amazon.awssdk.services.cloudformation.model.StackSummary;
 
 public interface CloudFormationStacks {
-   
+
    static void removeAllStacks() {
 
       try (var client = CloudFormationClient.create()) {
@@ -38,6 +38,8 @@ public interface CloudFormationStacks {
          info("deleting stack:");
          info(stackSummary);
          client.deleteStack(deleteRequest);
+      }else{
+         info("skipping")
       }
 
    }
