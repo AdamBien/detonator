@@ -1,6 +1,7 @@
 package airhacks.detonator.cloudformation.boundary;
 
 import airhacks.detonator.dialog.control.Dialog;
+import airhacks.detonator.log.boundary.Logger;
 import software.amazon.awssdk.services.cloudformation.CloudFormationClient;
 import software.amazon.awssdk.services.cloudformation.model.DeleteStackRequest;
 import software.amazon.awssdk.services.cloudformation.model.ListStacksRequest;
@@ -35,11 +36,11 @@ public interface CloudFormationStacks {
             .stackName(stackName)
             .build();
       if (Dialog.proceed(stackName)) {
-         info("deleting stack:");
+         Logger.info("deleting stack:");
          info(stackSummary);
          client.deleteStack(deleteRequest);
       }else{
-         info("skipping")
+         Logger.info("skipping");
       }
 
    }
@@ -52,10 +53,6 @@ public interface CloudFormationStacks {
    private static void info(StackSummary summary) {
       var message = "created: %s, updated: %s, name: ".formatted(summary.creationTime(),
             summary.lastUpdatedTime(), summary.stackName());
-      info(message);
-   }
-
-   private static void info(String info) {
-      System.out.println(info);
+      Logger.info(message);
    }
 }

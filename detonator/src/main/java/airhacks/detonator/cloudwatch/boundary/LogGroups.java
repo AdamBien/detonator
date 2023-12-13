@@ -1,6 +1,7 @@
 package airhacks.detonator.cloudwatch.boundary;
 
 import airhacks.detonator.dialog.control.Dialog;
+import airhacks.detonator.log.boundary.Logger;
 import software.amazon.awssdk.services.cloudwatchlogs.CloudWatchLogsClient;
 import software.amazon.awssdk.services.cloudwatchlogs.model.DeleteLogGroupRequest;
 import software.amazon.awssdk.services.cloudwatchlogs.model.LogGroup;
@@ -25,9 +26,12 @@ public interface LogGroups {
                 .logGroupName(logGroupName)
                 .build();
         if (Dialog.proceed(logGroupName)) {
+            Logger.info("deleting log group:");
+            Logger.info(logGroupName);
             client.deleteLogGroup(deleteRequest);
+            Logger.info("deleted");
         }else{
-            
+            Logger.info("skipping");
         }
     }
 }
