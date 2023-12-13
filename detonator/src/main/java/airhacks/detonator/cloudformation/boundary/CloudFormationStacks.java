@@ -1,5 +1,6 @@
 package airhacks.detonator.cloudformation.boundary;
 
+import airhacks.detonator.dialog.control.Dialog;
 import software.amazon.awssdk.services.cloudformation.CloudFormationClient;
 import software.amazon.awssdk.services.cloudformation.model.DeleteStackRequest;
 import software.amazon.awssdk.services.cloudformation.model.ListStacksRequest;
@@ -7,13 +8,7 @@ import software.amazon.awssdk.services.cloudformation.model.StackStatus;
 import software.amazon.awssdk.services.cloudformation.model.StackSummary;
 
 public interface CloudFormationStacks {
-   private static boolean proceed(String stackName) {
-      var line = System
-            .console()
-            .readLine("delete %s?: ".formatted(stackName));
-      return line.equalsIgnoreCase("y");
-   }
-
+   
    static void removeAllStacks() {
 
       try (var client = CloudFormationClient.create()) {
@@ -23,10 +18,12 @@ public interface CloudFormationStacks {
                .stackStatusFilters(StackStatus.CREATE_COMPLETE, StackStatus.UPDATE_COMPLETE)
                .build();
          var listStacksResponse = client.listStacks(request);
-         var stackSummaries = listStacksResponse.stackSummaries()
+         listStacksResponse
+               .stackSummaries()
                .stream()
                .filter(CloudFormationStacks::notCDK)
-               .toList();
+               .peek(CloudFormationStacks::info)
+               .forEach(summary -> deleteStack(client, summary));
 
       }
    }
@@ -37,7 +34,7 @@ public interface CloudFormationStacks {
             .builder()
             .stackName(stackName)
             .build();
-      if (proceed(stackName)) {
+      if (Dialog.proceed(stackName)) {
          info("deleting stack:");
          info(stackSummary);
          client.deleteStack(deleteRequest);

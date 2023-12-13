@@ -1,6 +1,7 @@
 package airhacks;
 
 import airhacks.detonator.cloudformation.boundary.CloudFormationStacks;
+import airhacks.detonator.cloudwatch.boundary.LogGroups;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.services.sts.StsClient;
 
@@ -9,7 +10,7 @@ import software.amazon.awssdk.services.sts.StsClient;
  * @author airhacks.com
  */
 interface App {
-    String version = "detonator: v0.0.2, 08.12.2023";
+    String version = "detonator: v0.0.3, 14.12.2023";
 
     static void info(String message){
         System.out.println(message);
@@ -28,6 +29,6 @@ interface App {
         var arn = response.arn();
         System.out.println(arn);
         CloudFormationStacks.removeAllStacks();
-        
+        LogGroups.removeAllLogGroups();
     }
 }
