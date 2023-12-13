@@ -51,8 +51,18 @@
     <dependencies>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
-            <artifactId>aws-sdk-java</artifactId>
-            <version>2.21.40</version>
+            <artifactId>cloudformation</artifactId>
+            <version>2.21.44</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sts</artifactId>
+            <version>2.21.44</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>cloudwatchlogs</artifactId>
+            <version>2.21.44</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
