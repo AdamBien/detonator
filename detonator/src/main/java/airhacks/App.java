@@ -12,24 +12,21 @@ import software.amazon.awssdk.services.sts.StsClient;
  * @author airhacks.com
  */
 interface App {
-    String version = "detonator: v0.0.5, 14.12.2023";
+    String version = "detonator: v0.0.6, 19.12.2023";
 
-    static void info(String message){
-        System.out.println(message);
-    }
 
     static void main(String... args) {
-        info(version);
+        Logger.info(version);
         //current accessKey
         var credentialsProvider = DefaultCredentialsProvider.builder().build();
         var accessKey = credentialsProvider.resolveCredentials().accessKeyId();
-        System.out.println(accessKey);
+        Logger.info(accessKey);
 
         //who am I?
         var stsClient = StsClient.create();
         var response = stsClient.getCallerIdentity();
         var arn = response.arn();
-        System.out.println(arn);
+        Logger.info(arn);
         CloudFormationStacks.removeAllStacks();
         if(Dialog.ask("Delete log groups")){
             LogGroups.removeAllLogGroups();
